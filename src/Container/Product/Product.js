@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as yup from 'yup';
 import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -27,19 +29,19 @@ function Product(props) {
 
         let localData = JSON.parse(localStorage.getItem("product"))
 
-        let id = Math.floor(Math.random()*1000);
+        let id = Math.floor(Math.random() * 1000);
         console.log(id);
-    
+
         let data = {
-          id: id,
-          ...values
+            id: id,
+            ...values
         }
-    
+
         if (localData === null) {
-          localStorage.setItem("product", JSON.stringify([data]))
+            localStorage.setItem("product", JSON.stringify([data]))
         } else {
-          localData.push(data)
-          localStorage.setItem("product", JSON.stringify(localData))
+            localData.push(data)
+            localStorage.setItem("product", JSON.stringify(localData))
         }
 
         handleClose()
@@ -71,27 +73,51 @@ function Product(props) {
 
     const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
 
+    const handleDelete = (params) => {
+        let localData = JSON.parse(localStorage.getItem("product"))
+        console.log(params.id);
+
+        let fdata = localData.filter((l) => l.id !== params.id)
+        console.log(fdata);
+
+        localStorage.setItem("product",JSON.stringify(fdata))
+
+        loadData();
+    }
+    
     const columns = [
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'category', headerName: 'Category', width: 130 },
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'quantity', headerName: 'Quantity', width: 130 },
         { field: 'status', headerName: 'Status', width: 130 },
+        {
+            field: 'Action',
+            headerName: 'action',
+            width: 130,
+            renderCell: (params) => (
+                <IconButton aria-label="delete" onClick={() => handleDelete(params)}>
+                    <DeleteIcon />
+                </IconButton>
+            )
+        },
     ];
 
     const loadData = () => {
-    
+
         let localData = JSON.parse(localStorage.getItem("product"));
-        
-        if(localData !== null){
-          setData(localData);
+
+        if (localData !== null) {
+            setData(localData);
         }
-    
+
     }
-    
-    useEffect (() => {
+
+    useEffect(() => {
         loadData()
-    },[])
+    }, [])
+
+    console.log(data);
 
     return (
         <div>
