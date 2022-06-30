@@ -15,6 +15,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 function Product(props) {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([]);
+    const [doopen, setDoOpen] = React.useState(false);
+    const [didid, setDidId] = useState(0);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -22,8 +24,13 @@ function Product(props) {
 
     const handleClose = () => {
         setOpen(false);
+        setDoOpen(false);
     };
 
+    // Alert
+    const handledoClickOpen = () => {
+        setDoOpen(true);
+    };
     const handleInsert = (values) => {
         console.log(values);
 
@@ -73,18 +80,18 @@ function Product(props) {
 
     const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
 
-    const handleDelete = (params) => {
+    const handleDelete = () => {
         let localData = JSON.parse(localStorage.getItem("product"))
-        console.log(params.id);
+        // console.log(params.id);
 
-        let fdata = localData.filter((l) => l.id !== params.id)
+        let fdata = localData.filter((l) => l.id !== didid)
         console.log(fdata);
 
-        localStorage.setItem("product",JSON.stringify(fdata))
+        localStorage.setItem("product", JSON.stringify(fdata))
 
         loadData();
     }
-    
+
     const columns = [
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'category', headerName: 'Category', width: 130 },
@@ -92,11 +99,11 @@ function Product(props) {
         { field: 'quantity', headerName: 'Quantity', width: 130 },
         { field: 'status', headerName: 'Status', width: 130 },
         {
-            field: 'Action',
-            headerName: 'action',
+            field: 'action',
+            headerName: 'Action',
             width: 130,
             renderCell: (params) => (
-                <IconButton aria-label="delete" onClick={() => handleDelete(params)}>
+                <IconButton aria-label="delete" onClick={() => { handledoClickOpen(); setDidId(params.id) }}>
                     <DeleteIcon />
                 </IconButton>
             )
@@ -134,6 +141,22 @@ function Product(props) {
                     checkboxSelection
                 />
             </div>
+            <Dialog
+                open={doopen}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {"Do you want to delete this product data?"}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={handleClose}>No</Button>
+                    <Button onClick={handleDelete} autoFocus>
+                        Yes
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Dialog open={open} onClose={handleClose} fullWidth>
                 <DialogTitle>Add product</DialogTitle>
                 <Formik values={formikObj}>
