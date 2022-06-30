@@ -11,6 +11,7 @@ import { Form, Formik, useFormik } from 'formik';
 import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -78,7 +79,7 @@ function Product(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit, handleBlur, touched } = formikObj;
+    const { handleChange, errors, handleSubmit, handleBlur, touched, values } = formikObj;
 
     const handleDelete = () => {
         let localData = JSON.parse(localStorage.getItem("product"))
@@ -90,8 +91,17 @@ function Product(props) {
         localStorage.setItem("product", JSON.stringify(fdata))
 
         loadData();
+
+        handleClose();
+
     }
 
+    const handleEdit = (params) => {
+        handleClickOpen();
+
+        formikObj.setValues(params.row)
+    }
+    
     const columns = [
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'category', headerName: 'Category', width: 130 },
@@ -103,9 +113,14 @@ function Product(props) {
             headerName: 'Action',
             width: 130,
             renderCell: (params) => (
-                <IconButton aria-label="delete" onClick={() => { handledoClickOpen(); setDidId(params.id) }}>
-                    <DeleteIcon />
-                </IconButton>
+                <>
+                    <IconButton aria-label="edit" onClick={() => handleEdit(params)}>
+                        <ModeEditOutlineIcon />
+                    </IconButton>
+                    <IconButton aria-label="delete" onClick={() => { handledoClickOpen(); setDidId(params.id) }}>
+                        <DeleteIcon />
+                    </IconButton>
+                </>
             )
         },
     ];
@@ -163,6 +178,7 @@ function Product(props) {
                     <Form onSubmit={handleSubmit}>
                         <DialogContent>
                             <TextField
+                                value={values.name}
                                 margin="dense"
                                 name="name"
                                 label="product name"
@@ -174,6 +190,7 @@ function Product(props) {
                             />
                             {errors.name && touched.name ? <p>{errors.name}</p> : ''}
                             <TextField
+                                value={values.category}
                                 margin="dense"
                                 name="category"
                                 label="product category"
@@ -185,6 +202,7 @@ function Product(props) {
                             />
                             {errors.category && touched.category ? <p>{errors.category}</p> : ''}
                             <TextField
+                                value={values.price}
                                 margin="dense"
                                 name="price"
                                 label="product price"
@@ -196,6 +214,7 @@ function Product(props) {
                             />
                             {errors.price && touched.price ? <p>{errors.price}</p> : ''}
                             <TextField
+                                value={values.quantity}
                                 margin="dense"
                                 id="quantity"
                                 label="product quantity"
@@ -207,6 +226,7 @@ function Product(props) {
                             />
                             {errors.quantity && touched.quantity ? <p>{errors.quantity}</p> : ''}
                             <TextField
+                                value={values.status}
                                 margin="dense"
                                 id="status"
                                 label="product status"
