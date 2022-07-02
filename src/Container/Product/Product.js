@@ -18,6 +18,7 @@ function Product(props) {
     const [data, setData] = useState([]);
     const [doopen, setDoOpen] = React.useState(false);
     const [didid, setDidId] = useState(0);
+    const [update, setUpdate] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -26,12 +27,15 @@ function Product(props) {
     const handleClose = () => {
         setOpen(false);
         setDoOpen(false);
+        setUpdate(false);
+        formikObj.resetForm()
     };
 
     // Alert
     const handledoClickOpen = () => {
         setDoOpen(true);
     };
+    
     const handleInsert = (values) => {
         console.log(values);
 
@@ -57,6 +61,26 @@ function Product(props) {
         loadData()
     }
 
+    const handleUpdateData = (values) => {
+        console.log(values);
+
+        let localData = JSON.parse(localStorage.getItem("product"))
+
+        let uData = localData.map((l) => {
+            if(l.id === values.id){
+                return values;
+            }else{
+                return l;
+            }
+        })
+
+        localStorage.setItem("product",JSON.stringify(uData))
+
+        loadData();
+
+        handleClose();
+
+    }
     let schema = yup.object().shape({
         name: yup.string().required("please enter name"),
         category: yup.string().required("please enter category"),
@@ -75,7 +99,11 @@ function Product(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            handleInsert(values);
+            if(update){
+                handleUpdateData(values);
+            }else{
+                handleInsert(values);
+            }
         },
     });
 
@@ -100,6 +128,8 @@ function Product(props) {
         handleClickOpen();
 
         formikObj.setValues(params.row)
+
+        setUpdate(true);
     }
     
     const columns = [
@@ -239,7 +269,12 @@ function Product(props) {
                             {errors.status && touched.status ? <p>{errors.status}</p> : ''}
                             <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
-                                <Button type='submit'>Submit</Button>
+                                {
+                                    update ? 
+                                    <Button type='submit'>Update</Button>
+                                    :
+                                    <Button type='submit'>Submit</Button>
+                                }
                             </DialogActions>
                         </DialogContent>
                     </Form>
