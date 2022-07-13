@@ -19,6 +19,7 @@ function Product(props) {
     const [doopen, setDoOpen] = React.useState(false);
     const [didid, setDidId] = useState(0);
     const [update, setUpdate] = useState(false);
+    const [filterData, setFilterData] = useState([]);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -35,7 +36,7 @@ function Product(props) {
     const handledoClickOpen = () => {
         setDoOpen(true);
     };
-    
+
     const handleInsert = (values) => {
         console.log(values);
 
@@ -67,14 +68,14 @@ function Product(props) {
         let localData = JSON.parse(localStorage.getItem("product"))
 
         let uData = localData.map((l) => {
-            if(l.id === values.id){
+            if (l.id === values.id) {
                 return values;
-            }else{
+            } else {
                 return l;
             }
         })
 
-        localStorage.setItem("product",JSON.stringify(uData))
+        localStorage.setItem("product", JSON.stringify(uData))
 
         loadData();
 
@@ -99,9 +100,9 @@ function Product(props) {
         },
         validationSchema: schema,
         onSubmit: values => {
-            if(update){
+            if (update) {
                 handleUpdateData(values);
-            }else{
+            } else {
                 handleInsert(values);
             }
         },
@@ -131,7 +132,7 @@ function Product(props) {
 
         setUpdate(true);
     }
-    
+
     const columns = [
         { field: 'name', headerName: 'Name', width: 130 },
         { field: 'category', headerName: 'Category', width: 130 },
@@ -169,7 +170,27 @@ function Product(props) {
         loadData()
     }, [])
 
-    console.log(data);
+    // console.log(data);
+
+    const handlesearch = (val) => {
+        console.log(val);
+
+        let localData = JSON.parse(localStorage.getItem("product"))
+
+        let fData = localData.filter((p) => (
+            p.name.toLowerCase().includes(val) ||
+            p.category.toLowerCase().includes(val) ||
+            p.price.toString().includes(val) ||
+            p.quantity.toString().includes(val) ||
+            p.status.toString().includes(val)
+        ))
+
+        setFilterData(fData);
+
+        console.log(fData);
+    }
+
+    let finalData = filterData.length > 0 ? filterData : data
 
     return (
         <div>
@@ -177,9 +198,18 @@ function Product(props) {
             <Button variant="outlined" onClick={handleClickOpen}>
                 Add product
             </Button>
+            <TextField
+                margin="dense"
+                name="search"
+                label="product search"
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(p) => handlesearch(p.target.value)}
+            />
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={data}
+                    rows={finalData}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
@@ -203,13 +233,13 @@ function Product(props) {
                 </DialogActions>
             </Dialog>
             <Dialog open={open} onClose={handleClose} fullWidth>
-            {
-                update ?
-                <DialogTitle>Update product</DialogTitle>
-                :
-                <DialogTitle>Add product</DialogTitle>
-            }
-                
+                {
+                    update ?
+                        <DialogTitle>Update product</DialogTitle>
+                        :
+                        <DialogTitle>Add product</DialogTitle>
+                }
+
                 <Formik values={formikObj}>
                     <Form onSubmit={handleSubmit}>
                         <DialogContent>
@@ -276,10 +306,10 @@ function Product(props) {
                             <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
                                 {
-                                    update ? 
-                                    <Button type='submit'>Update</Button>
-                                    :
-                                    <Button type='submit'>Submit</Button>
+                                    update ?
+                                        <Button type='submit'>Update</Button>
+                                        :
+                                        <Button type='submit'>Submit</Button>
                                 }
                             </DialogActions>
                         </DialogContent>
