@@ -3,15 +3,15 @@ import { Switch } from "react-router-dom";
 import {Route} from "react-router-dom";
 import Product from "./Container/Product/Product";
 import Counter from "./Container/Counter/Counter";
-import { Provider } from "react-redux";
 import { configureStore } from "./redux/Store";
+import { Provider } from "react-redux";
 
 function App() {
   const store = configureStore();
   
   return (
     <>
-    <Provider store = {store}>
+     <Provider store={store}>
       <Layout>
         <Switch>
           <Route path={"/product"} exact component={Product} />
