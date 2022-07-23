@@ -1,4 +1,4 @@
-import * as ActionTypes from '../ActionTypes';
+import * as ActionTypes from '../../redux/ActionTypes';
 
 export const increment = () => (dispatch) => {
     dispatch({type : ActionTypes.INCREAMENT_COUNTER})
