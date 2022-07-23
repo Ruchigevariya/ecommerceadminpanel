@@ -20,6 +20,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { NavLink } from 'react-router-dom';
+import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 
 const drawerWidth = 240;
 
@@ -101,7 +102,8 @@ export default function Layout({children}) {
   };
 
   const listData = [
-    {label:"Product", to: "/product", icon: <QrCode2Icon/>}
+    {label:"Product", to: "/product", icon: <QrCode2Icon/>},
+    {label:"Counter", to: "/counter", icon: <HourglassBottomIcon/>}
   ];
 
   return (
