@@ -1,29 +1,39 @@
 {
   "product": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Tops",
+      "category": "industry",
+      "price": 500,
+      "quantity": "1",
+      "status": "1"
     },
     {
-      "id": 2,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Pants",
+      "category": "firm",
+      "price": 699,
+      "quantity": "1",
+      "status": "1"
     },
     {
-      "id": 3,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Shirts",
+      "category": "industry",
+      "price": 999,
+      "quantity": "1",
+      "status": "1"
     },
     {
-      "id": 5,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Trouser",
+      "category": "firm",
+      "price": 450,
+      "quantity": "1",
+      "status": "1"
     },
     {
-      "id": 6,
-      "title": "json-server",
-      "author": "typicode"
+      "name": "Crop-tops",
+      "category": "industry",
+      "price": 1999,
+      "quantity": "1",
+      "status": "1"
     }
   ],
   "comments": [

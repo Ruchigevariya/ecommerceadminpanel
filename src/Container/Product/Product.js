@@ -12,7 +12,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProduct } from '../../redux/Action/Product.action';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -168,8 +169,12 @@ function Product(props) {
 
     }
 
+    const dispatch = useDispatch()
+    const Product = useSelector(state => state.Product)
+
     useEffect(() => {
-        loadData()
+        // loadData()
+        dispatch(getProduct())
     }, [])
 
     // console.log(data);
@@ -211,7 +216,7 @@ function Product(props) {
             />
             <div style={{ height: 400, width: '100%' }}>
                 <DataGrid
-                    rows={finalData}
+                    rows={Product.Product}
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
