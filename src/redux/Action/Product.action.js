@@ -6,7 +6,7 @@ export const getProduct = () => (dispatch) => {
         .then((response) => response.json())
         .then((data) => dispatch({type: ActionTypes.GET_PRODUCTDATA, payload: data}));
     }catch (error){  
-        console.log(error);
+        console.log(error.message);
     }
    
 }
