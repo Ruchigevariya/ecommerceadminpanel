@@ -15,6 +15,7 @@ export const productReducer = (state = initVal, action) => {
                 Product: action.payload,
                 error: ''
             }
+            
             default:
                 return state;
     }
