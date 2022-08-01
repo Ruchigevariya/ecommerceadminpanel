@@ -16,6 +16,13 @@ export const productReducer = (state = initVal, action) => {
                 Product: action.payload,
                 error: ''
             }
+        case ActionTypes.ADD_PRODUCTDATA:
+            return {
+                ...state,
+                isLoading: false,
+                Product: state.Product.concat(action.payload),
+                error: ''
+            }
         case ActionTypes.LOADING_PRODUCT:
             return {
                 ...state,

@@ -1,7 +1,7 @@
 {
   "product": [
     {
-      "id" :101,
+      "id": 101,
       "name": "Tops",
       "category": "industry",
       "price": 500,
@@ -9,7 +9,7 @@
       "status": "1"
     },
     {
-      "id" :102,
+      "id": 102,
       "name": "Pants",
       "category": "firm",
       "price": 699,
@@ -17,7 +17,7 @@
       "status": "1"
     },
     {
-      "id" :103,
+      "id": 103,
       "name": "Shirts",
       "category": "industry",
       "price": 999,
@@ -25,7 +25,7 @@
       "status": "1"
     },
     {
-      "id" :104,
+      "id": 104,
       "name": "Trouser",
       "category": "firm",
       "price": 450,
@@ -33,10 +33,42 @@
       "status": "1"
     },
     {
-      "id" :105,
+      "id": 105,
       "name": "Crop-tops",
       "category": "industry",
       "price": 1999,
+      "quantity": "1",
+      "status": "1"
+    },
+    {
+      "id": 511,
+      "name": "ruchi",
+      "category": "1",
+      "price": "2",
+      "quantity": "1",
+      "status": "1"
+    },
+    {
+      "id": 537,
+      "name": "topss",
+      "category": "industry",
+      "price": "999",
+      "quantity": "2",
+      "status": "4"
+    },
+    {
+      "id": 435,
+      "name": "shirtss",
+      "category": "firm",
+      "price": "500",
+      "quantity": "2",
+      "status": "1"
+    },
+    {
+      "id": 871,
+      "name": "tops",
+      "category": "industry",
+      "price": "500",
       "quantity": "1",
       "status": "1"
     }

@@ -4,9 +4,9 @@ import * as ActionTypes from '../ActionTypes'
 export const getProduct = () => (dispatch) => {
     try {
         dispatch(loadingProduct())
-        
+
         setTimeout(function () {
-            return fetch(baseUrl + 'product')
+            fetch(baseUrl + 'product')
                 .then(response => {
                     if (response.ok) {
                         return response;
@@ -26,9 +26,43 @@ export const getProduct = () => (dispatch) => {
         }, 2000)
 
     } catch (error) {
-        console.log(error);
+        dispatch(errorProduct(error.message))
     }
 
+}
+
+export const addProduct = (data) => (dispatch) => {
+    try {
+        fetch(baseUrl + 'product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+                error => {
+                    var errmess = new Error(error.message);
+                    throw errmess;
+                })
+            .then((response) => response.json())
+            .then((data) => {
+                dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data })
+            })
+            .catch((error) => {
+                dispatch(errorProduct(error.message))
+            });
+    } catch (error) {
+        dispatch(errorProduct(error.message))
+    }
 }
 
 export const loadingProduct = () => (dispatch) => {

@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProduct } from '../../redux/Action/Product.action';
+import { addProduct, getProduct } from '../../redux/Action/Product.action';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -53,12 +53,13 @@ function Product(props) {
             ...values
         }
 
-        if (localData === null) {
-            localStorage.setItem("product", JSON.stringify([data]))
-        } else {
-            localData.push(data)
-            localStorage.setItem("product", JSON.stringify(localData))
-        }
+        dispatch(addProduct(data))
+        // if (localData === null) {
+        //     localStorage.setItem("product", JSON.stringify([data]))
+        // } else {
+        //     localData.push(data)
+        //     localStorage.setItem("product", JSON.stringify(localData))
+        // }
 
         handleClose()
         formikObj.resetForm()
