@@ -171,7 +171,7 @@ function Product(props) {
 
     const dispatch = useDispatch()
     const Product = useSelector(state => state.Product)
-
+    // console.log(Product);
     useEffect(() => {
         // loadData()
         dispatch(getProduct())
