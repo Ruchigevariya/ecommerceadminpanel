@@ -7,6 +7,7 @@ const initVal = {
 }
 
 export const productReducer = (state = initVal, action) => {
+    console.log(action.type, action.payload);
     switch(action.type) {
         case ActionTypes.GET_PRODUCTDATA:
             return{
