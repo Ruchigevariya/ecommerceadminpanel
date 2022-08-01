@@ -23,7 +23,7 @@ function Product(props) {
     const [update, setUpdate] = useState(false);
     const [filterData, setFilterData] = useState([]);
     const c = useSelector(state => state.counter);
-    
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -201,128 +201,138 @@ function Product(props) {
 
     return (
         <div>
-            <h2>Product {c.counter}</h2>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Add product
-            </Button>
-            <TextField
-                margin="dense"
-                name="search"
-                label="product search"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(p) => handlesearch(p.target.value)}
-            />
-            <div style={{ height: 400, width: '100%' }}>
-                <DataGrid
-                    rows={Product.Product}
-                    columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    checkboxSelection
-                />
-            </div>
-            <Dialog
-                open={doopen}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Do you want to delete this product data?"}
-                </DialogTitle>
-                <DialogActions>
-                    <Button onClick={handleClose}>No</Button>
-                    <Button onClick={handleDelete} autoFocus>
-                        Yes
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <Dialog open={open} onClose={handleClose} fullWidth>
-                {
-                    update ?
-                        <DialogTitle>Update product</DialogTitle>
-                        :
-                        <DialogTitle>Add product</DialogTitle>
-                }
-
-                <Formik values={formikObj}>
-                    <Form onSubmit={handleSubmit}>
-                        <DialogContent>
-                            <TextField
-                                value={values.name}
-                                margin="dense"
-                                name="name"
-                                label="product name"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+            {
+                Product.isLoading ?
+                    <p>Loading.....</p>
+                    :
+                    Product.error !== '' ?
+                    <p>{Product.error}</p>
+                    :
+                    <div>
+                        <h2>Product {c.counter}</h2>
+                        <Button variant="outlined" onClick={handleClickOpen}>
+                            Add product
+                        </Button>
+                        <TextField
+                            margin="dense"
+                            name="search"
+                            label="product search"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            onChange={(p) => handlesearch(p.target.value)}
+                        />
+                        <div style={{ height: 400, width: '100%' }}>
+                            <DataGrid
+                                rows={Product.Product}
+                                columns={columns}
+                                pageSize={5}
+                                rowsPerPageOptions={[5]}
+                                checkboxSelection
                             />
-                            {errors.name && touched.name ? <p>{errors.name}</p> : ''}
-                            <TextField
-                                value={values.category}
-                                margin="dense"
-                                name="category"
-                                label="product category"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.category && touched.category ? <p>{errors.category}</p> : ''}
-                            <TextField
-                                value={values.price}
-                                margin="dense"
-                                name="price"
-                                label="product price"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.price && touched.price ? <p>{errors.price}</p> : ''}
-                            <TextField
-                                value={values.quantity}
-                                margin="dense"
-                                id="quantity"
-                                label="product quantity"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.quantity && touched.quantity ? <p>{errors.quantity}</p> : ''}
-                            <TextField
-                                value={values.status}
-                                margin="dense"
-                                id="status"
-                                label="product status"
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.status && touched.status ? <p>{errors.status}</p> : ''}
+                        </div>
+                        <Dialog
+                            open={doopen}
+                            onClose={handleClose}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {"Do you want to delete this product data?"}
+                            </DialogTitle>
                             <DialogActions>
-                                <Button onClick={handleClose}>Cancel</Button>
-                                {
-                                    update ?
-                                        <Button type='submit'>Update</Button>
-                                        :
-                                        <Button type='submit'>Submit</Button>
-                                }
+                                <Button onClick={handleClose}>No</Button>
+                                <Button onClick={handleDelete} autoFocus>
+                                    Yes
+                                </Button>
                             </DialogActions>
-                        </DialogContent>
-                    </Form>
-                </Formik>
-            </Dialog>
+                        </Dialog>
+                        <Dialog open={open} onClose={handleClose} fullWidth>
+                            {
+                                update ?
+                                    <DialogTitle>Update product</DialogTitle>
+                                    :
+                                    <DialogTitle>Add product</DialogTitle>
+                            }
+
+                            <Formik values={formikObj}>
+                                <Form onSubmit={handleSubmit}>
+                                    <DialogContent>
+                                        <TextField
+                                            value={values.name}
+                                            margin="dense"
+                                            name="name"
+                                            label="product name"
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.name && touched.name ? <p>{errors.name}</p> : ''}
+                                        <TextField
+                                            value={values.category}
+                                            margin="dense"
+                                            name="category"
+                                            label="product category"
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.category && touched.category ? <p>{errors.category}</p> : ''}
+                                        <TextField
+                                            value={values.price}
+                                            margin="dense"
+                                            name="price"
+                                            label="product price"
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.price && touched.price ? <p>{errors.price}</p> : ''}
+                                        <TextField
+                                            value={values.quantity}
+                                            margin="dense"
+                                            id="quantity"
+                                            label="product quantity"
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.quantity && touched.quantity ? <p>{errors.quantity}</p> : ''}
+                                        <TextField
+                                            value={values.status}
+                                            margin="dense"
+                                            id="status"
+                                            label="product status"
+                                            type="text"
+                                            fullWidth
+                                            variant="standard"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                        />
+                                        {errors.status && touched.status ? <p>{errors.status}</p> : ''}
+                                        <DialogActions>
+                                            <Button onClick={handleClose}>Cancel</Button>
+                                            {
+                                                update ?
+                                                    <Button type='submit'>Update</Button>
+                                                    :
+                                                    <Button type='submit'>Submit</Button>
+                                            }
+                                        </DialogActions>
+                                    </DialogContent>
+                                </Form>
+                            </Formik>
+                        </Dialog>
+                    </div>
+            }
         </div>
     );
 }

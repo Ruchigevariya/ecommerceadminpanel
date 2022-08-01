@@ -3,20 +3,33 @@ import * as ActionTypes from '../ActionTypes'
 const initVal = {
     isLoading: false,
     Product: [],
-    error:''
+    error: ''
 }
 
 export const productReducer = (state = initVal, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case ActionTypes.GET_PRODUCTDATA:
-            return{
+            return {
                 ...state,
                 isLoading: false,
                 Product: action.payload,
                 error: ''
             }
-            
-            default:
-                return state;
+        case ActionTypes.LOADING_PRODUCT:
+            return {
+                ...state,
+                isLoading: true,
+                error: ''
+            }
+        case ActionTypes.ERROR_PRODUCT:
+            return {
+                ...state,
+                isLoading: false,
+                Product: [],
+                error: action.payload,
+            }
+
+        default:
+            return state;
     }
 }
