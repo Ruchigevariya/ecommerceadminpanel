@@ -65,6 +65,19 @@ export const addProduct = (data) => (dispatch) => {
     }
 }
 
+export const deleteProductData = (id) => (dispatch) => {
+    try{
+        fetch(baseUrl + 'product/' + id , {
+            method:'DELETE'
+        })
+        .then((response) => response.json())
+        .then(
+            dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+        )
+    } catch (error) {
+
+    }
+}
 export const loadingProduct = () => (dispatch) => {
     dispatch({ type: ActionTypes.LOADING_PRODUCT })
 }

@@ -23,6 +23,13 @@ export const productReducer = (state = initVal, action) => {
                 Product: state.Product.concat(action.payload),
                 error: ''
             }
+        case ActionTypes.DELETE_PRODUCTDATA:
+            return {
+                ...state,
+                isLoading: false,
+                Product: state.Product.filter((p) => p.id !== action.payload),
+                error: ''
+            }
         case ActionTypes.LOADING_PRODUCT:
             return {
                 ...state,

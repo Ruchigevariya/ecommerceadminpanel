@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, getProduct } from '../../redux/Action/Product.action';
+import { addProduct, deleteProductData, getProduct } from '../../redux/Action/Product.action';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -115,13 +115,15 @@ function Product(props) {
     const { handleChange, errors, handleSubmit, handleBlur, touched, values } = formikObj;
 
     const handleDelete = () => {
-        let localData = JSON.parse(localStorage.getItem("product"))
-        // console.log(params.id);
+        // let localData = JSON.parse(localStorage.getItem("product"))
+        // // console.log(params.id);
 
-        let fdata = localData.filter((l) => l.id !== didid)
-        console.log(fdata);
+        // let fdata = localData.filter((l) => l.id !== didid)
+        // console.log(fdata);
 
-        localStorage.setItem("product", JSON.stringify(fdata))
+        // localStorage.setItem("product", JSON.stringify(fdata))
+
+        dispatch(deleteProductData(didid))
 
         loadData();
 

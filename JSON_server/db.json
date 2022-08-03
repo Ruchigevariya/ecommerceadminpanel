@@ -1,14 +1,6 @@
 {
   "product": [
     {
-      "id": 101,
-      "name": "Tops",
-      "category": "industry",
-      "price": 500,
-      "quantity": "1",
-      "status": "1"
-    },
-    {
       "id": 102,
       "name": "Pants",
       "category": "firm",
