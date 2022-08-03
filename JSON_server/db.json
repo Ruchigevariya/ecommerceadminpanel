@@ -4,7 +4,7 @@
       "id": 102,
       "name": "Pants",
       "category": "firm",
-      "price": 699,
+      "price": "400",
       "quantity": "1",
       "status": "1"
     },

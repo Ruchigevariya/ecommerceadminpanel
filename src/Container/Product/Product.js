@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, deleteProductData, getProduct } from '../../redux/Action/Product.action';
+import { addProduct, deleteProductData, getProduct, updateProductData } from '../../redux/Action/Product.action';
 
 function Product(props) {
     const [open, setOpen] = useState(false);
@@ -69,17 +69,19 @@ function Product(props) {
     const handleUpdateData = (values) => {
         console.log(values);
 
-        let localData = JSON.parse(localStorage.getItem("product"))
+        // let localData = JSON.parse(localStorage.getItem("product"))
 
-        let uData = localData.map((l) => {
-            if (l.id === values.id) {
-                return values;
-            } else {
-                return l;
-            }
-        })
+        // let uData = localData.map((l) => {
+        //     if (l.id === values.id) {
+        //         return values;
+        //     } else {
+        //         return l;
+        //     }
+        // })
 
-        localStorage.setItem("product", JSON.stringify(uData))
+        // localStorage.setItem("product", JSON.stringify(uData))
+
+        dispatch(updateProductData(values))
 
         loadData();
 
