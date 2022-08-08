@@ -1,3 +1,4 @@
+import { getProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
 
@@ -6,23 +7,26 @@ export const getProduct = () => (dispatch) => {
         dispatch(loadingProduct())
 
         setTimeout(function () {
-            fetch(baseUrl + 'product')
-                .then(response => {
-                    if (response.ok) {
-                        return response;
-                    } else {
-                        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                        error.response = response;
-                        throw error;
-                    }
-                },
-                    error => {
-                        var errmess = new Error(error.message);
-                        throw errmess;
-                    })
-                .then(response => response.json())
-                .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data })))
+            getProductData()
+            .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
                 .catch(error => dispatch(errorProduct(error.message)));
+            // fetch(baseUrl + 'product')
+            //     .then(response => {
+            //         if (response.ok) {
+            //             return response;
+            //         } else {
+            //             var error = new Error('Error ' + response.status + ': ' + response.statusText);
+            //             error.response = response;
+            //             throw error;
+            //         }
+            //     },
+            //         error => {
+            //             var errmess = new Error(error.message);
+            //             throw errmess;
+            //         })
+            //     .then(response => response.json())
+            //     .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data })))
+            //     .catch(error => dispatch(errorProduct(error.message)));
         }, 2000)
 
     } catch (error) {
