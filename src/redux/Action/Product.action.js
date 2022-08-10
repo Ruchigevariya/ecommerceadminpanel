@@ -1,4 +1,4 @@
-import { getProductData } from '../../Common/Apis/Product.api';
+import { getProductData, postProductData, deleteProductdata, putProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
 
@@ -8,7 +8,7 @@ export const getProduct = () => (dispatch) => {
 
         setTimeout(function () {
             getProductData()
-            .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
+                .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
                 .catch(error => dispatch(errorProduct(error.message)));
             // fetch(baseUrl + 'product')
             //     .then(response => {
@@ -37,101 +37,123 @@ export const getProduct = () => (dispatch) => {
 
 export const addProduct = (data) => (dispatch) => {
     try {
-        fetch(baseUrl + 'product', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                    error.response = response;
-                    throw error;
-                }
-            },
-                error => {
-                    var errmess = new Error(error.message);
-                    throw errmess;
-                })
-            .then((response) => response.json())
+        postProductData(data)
             .then((data) => {
-                dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data })
+                dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
             })
             .catch((error) => {
                 dispatch(errorProduct(error.message))
             });
+        // fetch(baseUrl + 'product', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(data),
+        // })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             return response;
+        //         } else {
+        //             var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        //             error.response = response;
+        //             throw error;
+        //         }
+        //     },
+        //         error => {
+        //             var errmess = new Error(error.message);
+        //             throw errmess;
+        //         })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data })
+        //     })
+        //     .catch((error) => {
+        //         dispatch(errorProduct(error.message))
+        //     });
     } catch (error) {
         dispatch(errorProduct(error.message))
     }
 }
 
 export const deleteProductData = (id) => (dispatch) => {
-    try{
-        fetch(baseUrl + 'product/' + id , {
-            method:'DELETE'
-        })
-        .then(response => {
-            if (response.ok) {
-                return response;
-            } else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
-        },
-            error => {
-                var errmess = new Error(error.message);
-                throw errmess;
-            })
-        .then((response) => response.json())
-        .then(
-            dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
-        )
-        .catch((error) => {
-            dispatch(errorProduct(error.message))
-        });
+    try {
+        deleteProductdata(id)
+            .then(
+                dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+            )
+            .catch((error) => {
+                dispatch(errorProduct(error.message))
+            });
+        // fetch(baseUrl + 'product/' + id , {
+        //     method:'DELETE'
+        // })
+        // .then(response => {
+        //     if (response.ok) {
+        //         return response;
+        //     } else {
+        //         var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        //         error.response = response;
+        //         throw error;
+        //     }
+        // },
+        //     error => {
+        //         var errmess = new Error(error.message);
+        //         throw errmess;
+        //     })
+        // .then((response) => response.json())
+        // .then(
+        //     dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+        // )
+        // .catch((error) => {
+        //     dispatch(errorProduct(error.message))
+        // });
     } catch (error) {
         dispatch(errorProduct(error.message))
     }
 }
 
 export const updateProductData = (data) => (dispatch) => {
-    try{
-        fetch(baseUrl + 'product/' + data.id , {
-            method:'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => {
-            if (response.ok) {
-                return response;
-            } else {
-                var error = new Error('Error ' + response.status + ': ' + response.statusText);
-                error.response = response;
-                throw error;
-            }
-        },
-            error => {
-                var errmess = new Error(error.message);
-                throw errmess;
-            })
-        .then((response) => response.json())
+    try {
+    putProductData(data)
         .then((data) => {
-            dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data })
+            dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data.data })
         })
         .catch((error) => {
             dispatch(errorProduct(error.message))
         });
-    } catch(error) {
+        // fetch(baseUrl + 'product/' + data.id, {
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(data),
+        // })
+        //     .then(response => {
+        //         if (response.ok) {
+        //             return response;
+        //         } else {
+        //             var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        //             error.response = response;
+        //             throw error;
+        //         }
+        //     },
+        //         error => {
+        //             var errmess = new Error(error.message);
+        //             throw errmess;
+        //         })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data })
+        //     })
+        //     .catch((error) => {
+        //         dispatch(errorProduct(error.message))
+        //     });
+    } catch (error) {
         dispatch(errorProduct(error.message))
     }
 }
+
 export const loadingProduct = () => (dispatch) => {
     dispatch({ type: ActionTypes.LOADING_PRODUCT })
 }

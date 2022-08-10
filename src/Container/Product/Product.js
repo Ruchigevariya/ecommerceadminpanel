@@ -43,7 +43,7 @@ function Product(props) {
     const handleInsert = (values) => {
         console.log(values);
 
-        let localData = JSON.parse(localStorage.getItem("product"))
+        // let localData = JSON.parse(localStorage.getItem("product"))
 
         let id = Math.floor(Math.random() * 1000);
         console.log(id);

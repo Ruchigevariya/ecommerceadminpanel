@@ -33,16 +33,8 @@
       "status": "1"
     },
     {
-      "id": 511,
-      "name": "ruchi",
-      "category": "1",
-      "price": "2",
-      "quantity": "1",
-      "status": "1"
-    },
-    {
       "id": 537,
-      "name": "topss",
+      "name": "tops",
       "category": "industry",
       "price": "999",
       "quantity": "2",
