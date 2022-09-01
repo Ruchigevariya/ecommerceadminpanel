@@ -6,12 +6,12 @@ import { db } from '../../firebase';
 
 export const getProduct = () => (dispatch) => {
     try {
-        dispatch(loadingProduct())
+        // dispatch(loadingProduct())
 
-        setTimeout(function () {
-            getProductData()
-                .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
-                .catch(error => dispatch(errorProduct(error.message)));
+        // setTimeout(function () {
+        //     getProductData()
+        //         .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
+        //         .catch(error => dispatch(errorProduct(error.message)));
             // fetch(baseUrl + 'product')
             //     .then(response => {
             //         if (response.ok) {
@@ -29,7 +29,7 @@ export const getProduct = () => (dispatch) => {
             //     .then(response => response.json())
             //     .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data })))
             //     .catch(error => dispatch(errorProduct(error.message)));
-        }, 2000)
+        // }, 2000)
 
     } catch (error) {
         dispatch(errorProduct(error.message))
