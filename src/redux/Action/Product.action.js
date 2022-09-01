@@ -1,6 +1,8 @@
 import { getProductData, postProductData, deleteProductdata, putProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../../firebase';
 
 export const getProduct = () => (dispatch) => {
     try {
@@ -35,15 +37,18 @@ export const getProduct = () => (dispatch) => {
 
 }
 
-export const addProduct = (data) => (dispatch) => {
+export const addProduct = (data) => async(dispatch) => {
     try {
-        postProductData(data)
-            .then((data) => {
-                dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
-            })
-            .catch((error) => {
-                dispatch(errorProduct(error.message))
-            });
+        const docRef = await addDoc(collection(db, "product"),data);
+          console.log("Document written with ID: ", docRef.id);
+          dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: {id: docRef.id, ...data} })
+        // postProductData(data)
+        //     .then((data) => {
+        //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
+        //     })
+        //     .catch((error) => {
+        //         dispatch(errorProduct(error.message))
+        //     });
         // fetch(baseUrl + 'product', {
         //     method: 'POST',
         //     headers: {

@@ -45,15 +45,15 @@ function Product(props) {
 
         // let localData = JSON.parse(localStorage.getItem("product"))
 
-        let id = Math.floor(Math.random() * 1000);
-        console.log(id);
+        // let id = Math.floor(Math.random() * 1000);
+        // console.log(id);
 
-        let data = {
-            id: id,
-            ...values
-        }
+        // let data = {
+        //     id: id,
+        //     ...values
+        // }
 
-        dispatch(addProduct(data))
+        dispatch(addProduct(values))
         // if (localData === null) {
         //     localStorage.setItem("product", JSON.stringify([data]))
         // } else {
