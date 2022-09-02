@@ -1,11 +1,19 @@
 import { getProductData, postProductData, deleteProductdata, putProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { db } from '../../firebase';
 
-export const getProduct = () => (dispatch) => {
+export const getProduct = () => async(dispatch) => {
     try {
+
+        const querySnapshot = await getDocs(collection(db, "product"));
+        let data = []
+        querySnapshot.forEach((doc) => {
+            data.push({ id: doc.id, ...doc.data() })
+            console.log(data);
+            dispatch({ type: ActionTypes.GET_PRODUCTDATA, payload: data })
+        });
         // dispatch(loadingProduct())
 
         // setTimeout(function () {
@@ -37,12 +45,12 @@ export const getProduct = () => (dispatch) => {
 
 }
 
-export const addProduct = (data) => async(dispatch) => {
+export const addProduct = (data) => async (dispatch) => {
     try {
         const docRef = await addDoc(collection(db, "product"), data);
         console.log("Document written with ID: ", docRef.id);
         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: { id: docRef.id, ...data } })
-        
+
         // postProductData(data)
         //     .then((data) => {
         //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
