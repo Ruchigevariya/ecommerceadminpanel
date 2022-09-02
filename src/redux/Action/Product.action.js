@@ -42,6 +42,7 @@ export const addProduct = (data) => async(dispatch) => {
         const docRef = await addDoc(collection(db, "product"), data);
         console.log("Document written with ID: ", docRef.id);
         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: { id: docRef.id, ...data } })
+        
         // postProductData(data)
         //     .then((data) => {
         //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
