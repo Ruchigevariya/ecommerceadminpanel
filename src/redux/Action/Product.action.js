@@ -1,7 +1,7 @@
 import { getProductData, postProductData, deleteProductdata, putProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 
 export const getProduct = () => (dispatch) => {
@@ -12,23 +12,23 @@ export const getProduct = () => (dispatch) => {
         //     getProductData()
         //         .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data.data })))
         //         .catch(error => dispatch(errorProduct(error.message)));
-            // fetch(baseUrl + 'product')
-            //     .then(response => {
-            //         if (response.ok) {
-            //             return response;
-            //         } else {
-            //             var error = new Error('Error ' + response.status + ': ' + response.statusText);
-            //             error.response = response;
-            //             throw error;
-            //         }
-            //     },
-            //         error => {
-            //             var errmess = new Error(error.message);
-            //             throw errmess;
-            //         })
-            //     .then(response => response.json())
-            //     .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data })))
-            //     .catch(error => dispatch(errorProduct(error.message)));
+        // fetch(baseUrl + 'product')
+        //     .then(response => {
+        //         if (response.ok) {
+        //             return response;
+        //         } else {
+        //             var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        //             error.response = response;
+        //             throw error;
+        //         }
+        //     },
+        //         error => {
+        //             var errmess = new Error(error.message);
+        //             throw errmess;
+        //         })
+        //     .then(response => response.json())
+        //     .then((data) => dispatch(({ type: ActionTypes.GET_PRODUCTDATA, payload: data })))
+        //     .catch(error => dispatch(errorProduct(error.message)));
         // }, 2000)
 
     } catch (error) {
@@ -39,9 +39,9 @@ export const getProduct = () => (dispatch) => {
 
 export const addProduct = (data) => async(dispatch) => {
     try {
-        const docRef = await addDoc(collection(db, "product"),data);
-          console.log("Document written with ID: ", docRef.id);
-          dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: {id: docRef.id, ...data} })
+        const docRef = await addDoc(collection(db, "product"), data);
+        console.log("Document written with ID: ", docRef.id);
+        dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: { id: docRef.id, ...data } })
         // postProductData(data)
         //     .then((data) => {
         //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
@@ -120,13 +120,13 @@ export const deleteProductData = (id) => (dispatch) => {
 
 export const updateProductData = (data) => (dispatch) => {
     try {
-    putProductData(data)
-        .then((data) => {
-            dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data.data })
-        })
-        .catch((error) => {
-            dispatch(errorProduct(error.message))
-        });
+        putProductData(data)
+            .then((data) => {
+                dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data.data })
+            })
+            .catch((error) => {
+                dispatch(errorProduct(error.message))
+            });
         // fetch(baseUrl + 'product/' + data.id, {
         //     method: 'PUT',
         //     headers: {
