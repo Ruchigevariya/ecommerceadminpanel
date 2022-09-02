@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
 });
 
 export const sendRequest = (config) => {
-    return axiosInstance(config)
+    return axiosInstance.request(config)
 }
 
 export const getRequest = (path) => {
