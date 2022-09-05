@@ -1,11 +1,22 @@
 import { getProductData, postProductData, deleteProductdata, putProductData } from '../../Common/Apis/Product.api';
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../firebase';
 
-export const getProduct = () => (dispatch) => {
+export const getProduct = () => async (dispatch) => {
     try {
+
+        const querySnapshot = await getDocs(collection(db, "product"));
+
+        let data = []
+
+        querySnapshot.forEach((doc) => {
+            data.push({ id: doc.id, ...doc.data() })
+            console.log(data);
+            dispatch({ type: ActionTypes.GET_PRODUCTDATA, payload: data })
+        });
+
         // dispatch(loadingProduct())
 
         // setTimeout(function () {
@@ -37,12 +48,12 @@ export const getProduct = () => (dispatch) => {
 
 }
 
-export const addProduct = (data) => async(dispatch) => {
+export const addProduct = (data) => async (dispatch) => {
     try {
         const docRef = await addDoc(collection(db, "product"), data);
         console.log("Document written with ID: ", docRef.id);
         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: { id: docRef.id, ...data } })
-        
+
         // postProductData(data)
         //     .then((data) => {
         //         dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: data.data })
@@ -82,15 +93,18 @@ export const addProduct = (data) => async(dispatch) => {
     }
 }
 
-export const deleteProductData = (id) => (dispatch) => {
+export const deleteProductData = (id) => async (dispatch) => {
+    console.log(id);
     try {
-        deleteProductdata(id)
-            .then(
-                dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
-            )
-            .catch((error) => {
-                dispatch(errorProduct(error.message))
-            });
+        await deleteDoc(doc(db, "product", id));
+        dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+        // deleteProductdata(id)
+        //     .then(
+        //         dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+        //     )
+        //     .catch((error) => {
+        //         dispatch(errorProduct(error.message))
+        //     });
         // fetch(baseUrl + 'product/' + id , {
         //     method:'DELETE'
         // })
@@ -119,15 +133,28 @@ export const deleteProductData = (id) => (dispatch) => {
     }
 }
 
-export const updateProductData = (data) => (dispatch) => {
+export const updateProductData = (data) => async(dispatch) => {
+    console.log(data);
     try {
-        putProductData(data)
-            .then((data) => {
-                dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data.data })
-            })
-            .catch((error) => {
-                dispatch(errorProduct(error.message))
-            });
+        const washingtonRef = doc(db, "product", data.id);
+
+        // Set the "capital" field of the city 'DC'
+        await updateDoc(washingtonRef, {
+            name: data.name,
+            category: data.category,
+            price: data.price,
+            quantity: data.quantity,
+            status: data.status
+        });
+        dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data })
+
+        // putProductData(data)
+        //     .then((data) => {
+        //         dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data.data })
+        //     })
+        //     .catch((error) => {
+        //         dispatch(errorProduct(error.message))
+        //     });
         // fetch(baseUrl + 'product/' + data.id, {
         //     method: 'PUT',
         //     headers: {
