@@ -2,7 +2,8 @@ import { getProductData, postProductData, deleteProductdata, putProductData } fr
 import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
-import { db } from '../../firebase';
+import { db, storage } from '../../firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const getProduct = () => async (dispatch) => {
     try {
@@ -50,9 +51,26 @@ export const getProduct = () => async (dispatch) => {
 
 export const addProduct = (data) => async (dispatch) => {
     try {
-        const docRef = await addDoc(collection(db, "product"), data);
-        console.log("Document written with ID: ", docRef.id);
-        dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: { id: docRef.id, ...data } })
+        const productRef = ref(storage, 'product/' + data.product_img.name);
+        // console.log(productRef);
+        uploadBytes(productRef, data.product_img)
+            .then((snapshot) => {
+                console.log('Uploaded a blob or file!');
+                getDownloadURL(ref(storage, snapshot.ref))
+                    .then(async(url) => {
+                        const docRef = await addDoc(collection(db, "product"),{
+                            ...data,
+                            product_img: url
+                        });
+                        dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: {
+                            id: docRef.id,
+                            ...data,
+                            product_img: url
+                        } })
+                        console.log(url);
+                    });
+            });
+        // console.log("Document written with ID: ", docRef.id);
 
         // postProductData(data)
         //     .then((data) => {
@@ -133,7 +151,7 @@ export const deleteProductData = (id) => async (dispatch) => {
     }
 }
 
-export const updateProductData = (data) => async(dispatch) => {
+export const updateProductData = (data) => async (dispatch) => {
     console.log(data);
     try {
         const washingtonRef = doc(db, "product", data.id);

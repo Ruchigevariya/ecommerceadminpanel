@@ -94,6 +94,7 @@ function Product(props) {
         price: yup.string().required("please enter price"),
         quantity: yup.string().required("please enter quantity"),
         status: yup.string().required("please enter status"),
+        product_img: yup.mixed().required("please select any product image")
     });
 
     const formikObj = useFormik({
@@ -103,6 +104,7 @@ function Product(props) {
             price: '',
             quantity: '',
             status: '',
+            product_img: ''
         },
         validationSchema: schema,
         onSubmit: values => {
@@ -114,7 +116,7 @@ function Product(props) {
         },
     });
 
-    const { handleChange, errors, handleSubmit, handleBlur, touched, values } = formikObj;
+    const { handleChange, errors, handleSubmit, handleBlur, touched, values, setFieldValue } = formikObj;
 
     const handleDelete = () => {
         // let localData = JSON.parse(localStorage.getItem("product"))
@@ -322,6 +324,13 @@ function Product(props) {
                                             onChange={handleChange}
                                             onBlur={handleBlur}
                                         />
+                                        {errors.status && touched.status ? <p>{errors.status}</p> : ''}
+                                        <input 
+                                            type="file"
+                                            name="product_img"
+                                            id="product_img"
+                                            onChange={(e) => setFieldValue("product_img", e.target.files[0])}
+                                        /> 
                                         {errors.status && touched.status ? <p>{errors.status}</p> : ''}
                                         <DialogActions>
                                             <Button onClick={handleClose}>Cancel</Button>
