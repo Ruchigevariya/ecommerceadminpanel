@@ -53,7 +53,7 @@ function Product(props) {
         //     ...values
         // }
 
-        dispatch(addProduct(data))
+        dispatch(addProduct(values))
         // if (localData === null) {
         //     localStorage.setItem("product", JSON.stringify([data]))
         // } else {
@@ -134,7 +134,6 @@ function Product(props) {
     }
 
     const handleEdit = (params) => {
-        console.log(params);
         handleClickOpen();
 
         formikObj.setValues(params.row)
