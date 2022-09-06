@@ -134,6 +134,7 @@ function Product(props) {
     }
 
     const handleEdit = (params) => {
+        console.log(params);
         handleClickOpen();
 
         formikObj.setValues(params.row)
