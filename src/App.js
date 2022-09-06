@@ -18,6 +18,7 @@ function App() {
       <Layout>
         <Switch>
           <Route path={"/product"} exact component={Product} />
+          <Route path={"/counter"} exact component={Counter} />
           <Route path={"/promise"} exact component={Promise_Example} />
         </Switch>
       </Layout>
