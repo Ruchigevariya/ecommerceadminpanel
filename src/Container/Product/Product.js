@@ -149,6 +149,14 @@ function Product(props) {
         { field: 'price', headerName: 'Price', width: 130 },
         { field: 'quantity', headerName: 'Quantity', width: 130 },
         { field: 'status', headerName: 'Status', width: 130 },
+        { 
+            field: 'product_img', 
+            headerName: 'Product_img', 
+            width: 130,
+            renderCell: (params) => (
+                <img  src={params.row.product_img} width={50} height={50} />
+            )
+        },
         {
             field: 'action',
             headerName: 'Action',
@@ -158,7 +166,7 @@ function Product(props) {
                     <IconButton aria-label="edit" onClick={() => handleEdit(params)}>
                         <ModeEditOutlineIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" onClick={() => { handledoClickOpen(); setDidId(params.id) }}>
+                    <IconButton aria-label="delete" onClick={() => { handledoClickOpen(); setDidId(params.row) }}>
                         <DeleteIcon />
                     </IconButton>
                 </>

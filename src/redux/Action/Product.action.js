@@ -3,7 +3,7 @@ import { baseUrl } from '../../Shares/BaseURL';
 import * as ActionTypes from '../ActionTypes'
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { db, storage } from '../../firebase';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { deleteObject, getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 export const getProduct = () => async (dispatch) => {
     try {
@@ -51,22 +51,29 @@ export const getProduct = () => async (dispatch) => {
 
 export const addProduct = (data) => async (dispatch) => {
     try {
-        const productRef = ref(storage, 'product/' + data.product_img.name);
+        const randomNum = Math.floor(Math.random() * 10000000).toString()
+        console.log(randomNum);
+
+        const productRef = ref(storage, 'product/' + randomNum);
         // console.log(productRef);
+
         uploadBytes(productRef, data.product_img)
             .then((snapshot) => {
                 console.log('Uploaded a blob or file!');
                 getDownloadURL(ref(storage, snapshot.ref))
-                    .then(async(url) => {
-                        const docRef = await addDoc(collection(db, "product"),{
+                    .then(async (url) => {
+                        const docRef = await addDoc(collection(db, "product"), {
                             ...data,
-                            product_img: url
+                            product_img: url,
+                            fileName: randomNum,
                         });
-                        dispatch({ type: ActionTypes.ADD_PRODUCTDATA, payload: {
-                            id: docRef.id,
-                            ...data,
-                            product_img: url
-                        } })
+                        dispatch({
+                            type: ActionTypes.ADD_PRODUCTDATA, payload: {
+                                id: docRef.id,
+                                ...data,
+                                product_img: url
+                            }
+                        })
                         console.log(url);
                     });
             });
@@ -111,11 +118,20 @@ export const addProduct = (data) => async (dispatch) => {
     }
 }
 
-export const deleteProductData = (id) => async (dispatch) => {
-    console.log(id);
+export const deleteProductData = (data) => async (dispatch) => {
+    console.log(data);
     try {
-        await deleteDoc(doc(db, "product", id));
-        dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
+        const productRef = ref(storage, 'product/' + data.fileName);
+
+        deleteObject(productRef)
+            .then(async () => {
+                await deleteDoc(doc(db, "product", data.id));
+                dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: data.id })
+            })
+            .catch((error) => {
+                dispatch(errorProduct(error.message))
+            });
+
         // deleteProductdata(id)
         //     .then(
         //         dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
