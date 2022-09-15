@@ -174,13 +174,14 @@ export const updateProductData = (data) => async (dispatch) => {
     const productref = doc(db, "product", data.id);
 
     try {
-        const delproductRef = ref(storage, 'product/' + data.fileName);
-        const randomNum = Math.floor(Math.random() * 10000000).toString()
-        const instproductRef = ref(storage, 'product/' + randomNum);
-
+    
         if (typeof data.product_img === 'string') {
             console.log("No change Image.");
         } else {
+            const delproductRef = ref(storage, 'product/' + data.fileName);
+            const randomNum = Math.floor(Math.random() * 10000000).toString()
+            const instproductRef = ref(storage, 'product/' + randomNum);
+            
             deleteObject(delproductRef) //1
                 .then(async () => {
                     uploadBytes(instproductRef, data.product_img) //2
