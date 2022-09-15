@@ -331,7 +331,7 @@ function Product(props) {
                                             id="product_img"
                                             onChange={(e) => setFieldValue("product_img", e.target.files[0])}
                                         /> 
-                                        {errors.status && touched.status ? <p>{errors.status}</p> : ''}
+                                        {errors.product_img && touched.product_img ? <p>{errors.product_img}</p> : ''}
                                         <DialogActions>
                                             <Button onClick={handleClose}>Cancel</Button>
                                             {
