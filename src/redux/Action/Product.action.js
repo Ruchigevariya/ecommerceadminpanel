@@ -65,14 +65,14 @@ export const addProduct = (data) => async (dispatch) => {
                         const docRef = await addDoc(collection(db, "product"), {
                             ...data,
                             product_img: url,
-                            fileName: randomNum,
+                            fileName: randomNum
                         });
                         dispatch({
                             type: ActionTypes.ADD_PRODUCTDATA, payload: {
                                 id: docRef.id,
                                 ...data,
                                 product_img: url,
-                                fileName: randomNum,
+                                fileName: randomNum
                             }
                         })
                         console.log(url);
