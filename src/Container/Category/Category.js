@@ -28,15 +28,32 @@ function Category(props) {
     const formikObj = useFormik({
         initialValues: {
             name: '',
-            category_img: '',
+            category_img: ''
         },
         validationSchema: schema,
         onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
+            handleInsert(values)
         },
     });
 
     const { handleChange, handleSubmit, handleBlur, errors, touched, values, setFieldValue } = formikObj;
+
+    const handleInsert = (values) => {
+        console.log(values);
+
+        let localData = JSON.parse(localStorage.getItem("category"))
+
+        if (localData === null) {
+            localStorage.setItem("category", JSON.stringify([values]))
+        } else {
+            localData.push(values)
+            localStorage.setItem("category", JSON.stringify(localData))
+        }
+
+        handleClose()
+        formikObj.resetForm()
+    }
 
     return (
         <div>
@@ -50,8 +67,8 @@ function Category(props) {
                     onClose={handleClose}
                 >
                     <DialogTitle>Add category</DialogTitle>
-                    <Formik>
-                        <Form>
+                    <Formik values={formikObj}>
+                        <Form onSubmit={handleSubmit}>
                             <DialogContent>
                                 <TextField
                                     value={values.name}
@@ -65,20 +82,21 @@ function Category(props) {
                                     onBlur={handleBlur}
                                 />
                                 {errors.name && touched.name ? <p>{errors.name}</p> : ''}
-                                <input
+                                {/* <input
                                     type="file"
                                     name="category_img"
                                     id="category_img"
                                     onChange={(e) => setFieldValue("category_img", e.target.files[0])}
                                 />
-                                {errors.category_img && touched.category_img ? <p>{errors.category_img}</p> : ''}
+                                {errors.category_img && touched.category_img ? <p>{errors.category_img}</p> : ''} */}
+                            <DialogActions>
+                                <Button onClick={handleClose}>Cancel</Button>
+                                <Button type='submit'>Submit</Button>
+                            </DialogActions>
                             </DialogContent>
                         </Form>
                     </Formik>
-                    <DialogActions>
-                        <Button onClick={handleClose}>No</Button>
-                        {/* <Button onClick={handledelete}>Yes</Button> */}
-                    </DialogActions>
+
                 </Dialog>
             </div>
 
