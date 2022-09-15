@@ -154,10 +154,10 @@ export const deleteProductData = (id) => async (dispatch) => {
 export const updateProductData = (data) => async (dispatch) => {
     console.log(data);
     try {
-        const washingtonRef = doc(db, "product", data.id);
+        const productref = doc(db, "product", data.id);
 
         // Set the "capital" field of the city 'DC'
-        await updateDoc(washingtonRef, {
+        await updateDoc(productref, {
             name: data.name,
             category: data.category,
             price: data.price,
