@@ -71,8 +71,7 @@ export const addProduct = (data) => async (dispatch) => {
                             type: ActionTypes.ADD_PRODUCTDATA, payload: {
                                 id: docRef.id,
                                 ...data,
-                                product_img: url.at,
-                                fileName: randomNum,
+                                product_img: url
                             }
                         })
                         console.log(url);
