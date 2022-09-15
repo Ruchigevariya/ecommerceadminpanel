@@ -156,7 +156,6 @@ export const updateProductData = (data) => async (dispatch) => {
     try {
         const productref = doc(db, "product", data.id);
 
-        // Set the "capital" field of the city 'DC'
         await updateDoc(productref, {
             name: data.name,
             category: data.category,
