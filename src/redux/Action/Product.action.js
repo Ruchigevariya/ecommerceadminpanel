@@ -170,17 +170,53 @@ export const deleteProductData = (data) => async (dispatch) => {
 
 export const updateProductData = (data) => async (dispatch) => {
     console.log(data);
-    try {
-        const productref = doc(db, "product", data.id);
 
-        await updateDoc(productref, {
-            name: data.name,
-            category: data.category,
-            price: data.price,
-            quantity: data.quantity,
-            status: data.status
-        });
-        dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data })
+    const productref = doc(db, "product", data.id);
+
+    try {
+        const delproductRef = ref(storage, 'product/' + data.fileName);
+        const randomNum = Math.floor(Math.random() * 10000000).toString()
+        const instproductRef = ref(storage, 'product/' + randomNum);
+
+        if (typeof data.product_img === 'string') {
+            console.log("No change Image.");
+        } else {
+            deleteObject(delproductRef) //1
+                .then(async () => {
+                    uploadBytes(instproductRef, data.product_img) //2
+                        .then((snapshot) => {
+                            // console.log('Uploaded a blob or file!');
+                            getDownloadURL(ref(storage, snapshot.ref)) //3
+                                .then(async (url) => {
+                                    // console.log(url);
+                                    await updateDoc(productref, {   //4
+                                        name: data.name,
+                                        category: data.category,
+                                        price: data.price,
+                                        quantity: data.quantity,
+                                        status: data.status,
+                                        fileName: randomNum,
+                                        product_img: url
+                                    });
+                                    dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: {...data, fileName: randomNum, product_img: url} }) // 5
+                                })
+                        })
+                })
+            console.log("Change Image");
+
+        }
+
+
+        // const productref = doc(db, "product", data.id);
+
+        // await updateDoc(productref, {
+        //     name: data.name,
+        //     category: data.category,
+        //     price: data.price,
+        //     quantity: data.quantity,
+        //     status: data.status
+        // });
+        // dispatch({ type: ActionTypes.UPDATE_PRODUCTDATA, payload: data })
 
         // putProductData(data)
         //     .then((data) => {
