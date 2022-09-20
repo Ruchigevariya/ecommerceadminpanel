@@ -12,8 +12,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addCategory, deleteCategory, getCategory, updateCategory } from '../../redux/Action/Category.action';
 
 function Category(props) {
     const [open, setOpen] = useState(false);
@@ -21,6 +21,7 @@ function Category(props) {
     const [doopen, seDoOpen] = React.useState(false);
     const [did, setDid] = useState(0);
     const [update, setUpdate] = useState(false);
+    const c = useSelector(state => state.counter);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -40,22 +41,23 @@ function Category(props) {
     const handleInsert = (values) => {
         console.log(values);
 
-        let localData = JSON.parse(localStorage.getItem("category"))
+        // let localData = JSON.parse(localStorage.getItem("category"))
 
-        let id = Math.floor(Math.random() * 10000);
-        console.log(id);
+        // let id = Math.floor(Math.random() * 10000);
+        // console.log(id);
 
-        let data = {
-            id: id,
-            ...values
-        }
+        // let data = {
+        //     id: id,
+        //     ...values
+        // }
 
-        if (localData === null) {
-            localStorage.setItem("category", JSON.stringify([data]))
-        } else {
-            localData.push(data)
-            localStorage.setItem("category", JSON.stringify(localData))
-        }
+        dispatch(addCategory(values))
+        // if (localData === null) {
+        //     localStorage.setItem("category", JSON.stringify([data]))
+        // } else {
+        //     localData.push(data)
+        //     localStorage.setItem("category", JSON.stringify(localData))
+        // }
 
         handleClose()
         formikObj.resetForm()
@@ -64,7 +66,7 @@ function Category(props) {
 
     let schema = yup.object().shape({
         name: yup.string().required("please enter name"),
-        category_img: yup.mixed().required("please select any product image")
+        category_img: yup.mixed().required("please select any product category image")
     });
 
     const formikObj = useFormik({
@@ -83,7 +85,7 @@ function Category(props) {
         },
     });
 
-    const { handleChange, handleSubmit, handleBlur, errors, touched, values, setFieldValue } = formikObj;
+    const { handleChange, handleSubmit, handleBlur, errors, touched, values, setFieldValue} = formikObj;
 
 
     const columns = [
@@ -93,7 +95,7 @@ function Category(props) {
             headerName: 'category_img',
             width: 120,
             renderCell: (params) => (
-                <img src={params.row.product_img} width={50} height={50} />
+                <img src={params.row.category_img} width={50} height={50} />
             )
         },
         {
@@ -105,7 +107,7 @@ function Category(props) {
                     <IconButton aria-label="edit" onClick={() => handleEdit(params)}>
                         <ModeEditOutlineIcon />
                     </IconButton>
-                    <IconButton aria-label="delete" onClick={() => { handleDoClickOpen(); setDid(params.id) }}>
+                    <IconButton aria-label="delete" onClick={() => { handleDoClickOpen(); setDid(params.row) }}>
                         <DeleteIcon />
                     </IconButton>
                 </>
@@ -122,18 +124,24 @@ function Category(props) {
         }
     }
 
+    const dispatch = useDispatch()
+    const category = useSelector(state => state.category)
+
     useEffect(() => {
-        loadData()
+        dispatch(getCategory())
+        // loadData()
     }, [])
 
 
     const handleDelete = () => {
-        let localData = JSON.parse(localStorage.getItem("category"))
+        // let localData = JSON.parse(localStorage.getItem("category"))
 
-        let fData = localData.filter((f) => f.id !== did)
-        console.log(fData);
+        // let fData = localData.filter((f) => f.id !== did)
+        // console.log(fData);
 
-        localStorage.setItem("category", JSON.stringify(fData))
+        // localStorage.setItem("category", JSON.stringify(fData))
+
+        dispatch(deleteCategory(did))
 
         loadData();
         handleClose();
@@ -142,18 +150,19 @@ function Category(props) {
     const handleUpdateData = (values) => {
         console.log(values);
 
-        let localData = JSON.parse(localStorage.getItem("category"))
+        // let localData = JSON.parse(localStorage.getItem("category"))
 
-        let uData = localData.map((u) => {
-            if (u.id === values.id) {
-                return values;
-            } else {
-                return u;
-            }
-        })
+        // let uData = localData.map((u) => {
+        //     if (u.id === values.id) {
+        //         return values;
+        //     } else {
+        //         return u;
+        //     }
+        // })
 
-        localStorage.setItem("category", JSON.stringify(uData))
+        // localStorage.setItem("category", JSON.stringify(uData))
 
+        dispatch(updateCategory(values))
         loadData();
         handleClose();
 
@@ -169,14 +178,18 @@ function Category(props) {
 
     return (
         <div>
+        {
+            category.error !== '' ?
+                    <p>{category.error}</p>
+                    :
             <div>
-                <h2>Category</h2>
+                <h2>Category {c.counter}</h2>
                 <Button variant="outlined" onClick={handleClickOpen}>
                     Add Category List
                 </Button>
                 <div style={{ height: 400, width: '100%' }}>
                     <DataGrid
-                        rows={data}
+                        rows={category.category}
                         columns={columns}
                         pageSize={5}
                         rowsPerPageOptions={[5]}
@@ -243,6 +256,7 @@ function Category(props) {
                     </Formik>
                 </Dialog>
             </div>
+        }
 
         </div>
     );
