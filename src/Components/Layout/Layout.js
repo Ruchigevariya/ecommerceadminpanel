@@ -22,6 +22,7 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { NavLink } from 'react-router-dom';
 import HourglassBottomIcon from '@mui/icons-material/HourglassBottom';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import CategoryIcon from '@mui/icons-material/Category';
 
 const drawerWidth = 240;
 
@@ -105,7 +106,8 @@ export default function Layout({children}) {
   const listData = [
     {label:"Product", to: "/product", icon: <QrCode2Icon/>},
     {label:"Counter", to: "/counter", icon: <HourglassBottomIcon/>},
-    {label:"Promise", to: "/promise", icon: <DirectionsIcon/>}
+    {label:"Promise", to: "/promise", icon: <DirectionsIcon/>},
+    {label:"Category", to: "/category", icon: <CategoryIcon/>}
   ];
 
   return (

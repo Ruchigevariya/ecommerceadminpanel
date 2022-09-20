@@ -7,6 +7,7 @@ import { configureStore } from "./redux/Store";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react'
 import Promise_Example from "./Examples/Promise_Example";
+import Category from "./Container/Category/Category";
 
 function App() {
   const {store,persistor} = configureStore();
@@ -20,6 +21,7 @@ function App() {
           <Route path={"/product"} exact component={Product} />
           <Route path={"/counter"} exact component={Counter} />
           <Route path={"/promise"} exact component={Promise_Example} />
+          <Route path={"/category"} exact component={Category} />
         </Switch>
       </Layout>
       </PersistGate>
