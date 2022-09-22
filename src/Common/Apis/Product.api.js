@@ -8,7 +8,7 @@ export const postProductData = (data) => {
     return postRequest('product', data)
 }
 
-export const deleteProductdata = (id) => {
+export const deleteProduct = (id) => {
     return deleteRequest('product/', id)
 }
 

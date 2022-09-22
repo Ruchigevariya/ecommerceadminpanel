@@ -133,7 +133,7 @@ export const deleteProductData = (data) => async (dispatch) => {
                 dispatch(errorProduct(error.message))
             });
 
-        // deleteProductdata(id)
+        // deleteProduct(id)
         //     .then(
         //         dispatch({ type: ActionTypes.DELETE_PRODUCTDATA, payload: id })
         //     )
